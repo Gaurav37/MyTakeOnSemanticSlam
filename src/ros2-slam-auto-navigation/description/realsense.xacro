@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- Mount to chassis just like normal camera -->
+    <joint name="realsense_joint" type="fixed">
+        <parent link="chassis"/>
+        <child link="realsense_link"/>
+        <origin xyz="0.5 0 0.15" rpy="0 0 0"/>
+    </joint>
+
+    <link name="realsense_link">
+        <visual>
+            <geometry>
+                <box size="0.05 0.05 0.05"/>
+            </geometry>
+            <material name="white"/>
+        </visual>
+    </link>
+
+    <!-- Optical frame -->
+    <joint name="realsense_optical_joint" type="fixed">
+        <parent link="realsense_link"/>
+        <child link="realsense_optical_link"/>
+        <origin xyz="0 0 0" rpy="${-pi/2} 0 ${-pi/2}"/>
+    </joint>
+
+    <link name="realsense_optical_link"/>
+
+    <!-- Gazebo sensor + plugin -->
+    <gazebo reference="realsense_link">
+        <material>Gazebo/White</material>
+
+        <plugin name="realsense_plugin" filename="librealsense_gazebo_plugin.so">
+            <prefix>camera</prefix>
+        
+            <depthUpdateRate>30.0</depthUpdateRate>
+            <colorUpdateRate>30.0</colorUpdateRate>
+        
+            <depthTopicName>aligned_depth_to_color/image_raw</depthTopicName>
+            <colorTopicName>color/image_raw</colorTopicName>
+        
+            <pointCloud>true</pointCloud>
+            <pointCloudTopicName>depth/color/points</pointCloudTopicName>
+        
+            <colorOpticalframeName>realsense_optical_link</colorOpticalframeName>
+            <depthOpticalframeName>realsense_optical_link</depthOpticalframeName>
+        
+            <rangeMinDepth>0.3</rangeMinDepth>
+            <rangeMaxDepth>5.0</rangeMaxDepth>
+
+        </plugin>
+    </gazebo>
+
+</robot>

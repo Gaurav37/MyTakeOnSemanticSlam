@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <world name="warehouse_world">
+
+    <include>
+      <uri>model://sun</uri>
+    </include>
+
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+
+    <!-- Full warehouse environment -->
+    <include>
+      <uri>
+        https://fuel.gazebosim.org/1.0/OpenRobotics/worlds/tugbot%20in%20warehouse
+      </uri>
+    </include>
+
+  </world>
+</sdf>
